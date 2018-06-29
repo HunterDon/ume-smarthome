@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <Button
+        android:id="@+id/btn_getCode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:text="获取验证码" />
+
+    <EditText
+        android:id="@+id/et_authCode"
+        android:layout_width="match_parent"
+        android:hint="请输入验证码"
+        android:visibility="gone"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/btn_resetPasswords"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:text="重置密码" />
+
+    <Button
+        android:id="@+id/btn_login_SDK"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="SDK登录" />
+
+    <Button
+        android:id="@+id/btn_getDevices"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="获取设备列表" />
+
+    <Button
+        android:id="@+id/btn_control"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="控制设备" />
+
+</LinearLayout>
