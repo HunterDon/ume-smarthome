@@ -163,7 +163,7 @@ errCode  1
 errMsg 密码错误
 ```
 
-更多错误码参考***
+更多错误码参考文档最底处“状态码”
 
  
 
@@ -493,7 +493,19 @@ Device 的字段
 #### 请求参数
 
 ``` java?linenums
-DeviceManager.searchDevice(UCallback callback);
+DeviceManager.searchDevice((new DeviceCallback() {
+                    @Override
+                    public void onSuccess(List<Device> data) {
+                        devices.addAll(data);
+                        for(Device device:data){
+                            KLog.d(device.toString());
+                        }
+                    }
+                    @Override
+                    public void onFailure(int errCode, String errMsg) {
+
+                    }
+                });
 ```
 
 
@@ -620,3 +632,106 @@ level表示位置区间（0-255）
 stop（{“stop”:2}）为停止命令
 ##### 开关面板 {"onoff":1}
 onoff表示开关(0表示关，1表示开)
+
+
+
+------------------
+返回参数|类别|值|说明|备注
+---|---|---|---|---
+deviceType |string|unknown|未知设备
+deviceType|string|DoorSensor|门磁
+deviceType|string|FireSensor|烟雾报警器
+deviceType|string|WaterSensor|水浸探测器
+deviceType|string|GasSensor|可燃气体
+deviceType|string|IRSensor|人体红外
+deviceType|string|SOS|SOS
+deviceType|string|Switch|墙面开关
+deviceType|string|LightSwitch|开关灯
+deviceType|string|DimmableLight|可调灯
+deviceType|string|LevelControlSwitch|调光开关
+deviceType|string|MobileMeterSocket|移动计量插座
+deviceType|string|OutLet|普通插座
+deviceType|string|Repeater|中继器
+deviceType|string|MobileOutlet|移动插座
+deviceType|string|TouchPanel|触摸面板
+deviceType|string|AudibleAndVisualAlarm|声光报警器
+deviceType|string|CurtainMotor|窗帘电机
+deviceType|string|ColorDimmableLight|彩色灯
+deviceType|string|HumiturePM2.5|温湿度PM2.5
+deviceType|string|PM2.5|PM2.5
+deviceType|string|IRRemoteController|红外遥控器
+deviceType|string|CurtainSwitch|一路窗帘开关
+deviceType|string|IRTransponder|红外转发器
+deviceType|string|AutomaticDoorController|自动门控制器
+deviceType|string|MusicPlayer|背景音乐
+
+
+## 5.状态码
+------------------
+
+状态码 | 说明
+----| ---
+0x0| 成功
+0x1| 密码错误
+0x2| 用户不存在
+0x3| SESSION过期
+0x4| 用户已存在
+0x5| 密码太短
+0x6| 用户名不能为空
+0x7| 头信息错误
+0x8| Body信息错误
+0x9| 无授权
+0xA| 绑定错误
+0xB| 没有手机号
+0xC| 验证码不符合
+0xD| 验证码过期
+0xF| 超过绑定网关数量上限
+0x11|没有用户信息
+0x12| Session不符合
+0x13| 旧密码错误
+0x14| 用户已在别处登陆
+0x15| 消息ukey不匹配
+0x12C| 组已存在
+0x12D| 组不存在
+0x12E| 组控制参数错误
+0x1F4| 设备不存在
+0x1F5| 设备读取异常
+0x1F6| 设备离线
+0x1F7| 设备控制超时
+0x1F8| 设备电量低
+0x1F9| 设备控制参数错误
+0x1FA| 未发现新设备
+0x1FB| 设备已存在
+0x1FC| PM2.5不存在
+0x1FD| 温度传感器不存在
+0x1FE| 烟雾探测不存在
+0x1FF| 可燃气体不存在
+0x200|水浸不存在
+0x201|门磁不存在
+0x202|红外不存在
+0x203|SOS不存在
+0x204|设备已添加
+0x3e8|场景已存在
+0x3e9|场景数量过多
+0x3eA|场景不存在
+0x3eB|场景参数错误
+0x3eC|场景时间条件冲突
+0x3eD|场景非法
+0x7D0|不支持的命令
+0x7D1|空对象
+0x7D2|网关挂起，正在停止中
+0x7D3|网关正在启动
+0x7D5|验证码的session超时
+0x7D6|修改分组错误
+0x7D7|网关离线
+0x7D8|没有网关
+0x7D9|网关名已存在
+0x7DA|设备名已存在
+0x7DB|不支持的json协议版本
+0x7DC|不支持的消息号
+0x7DD|APP与网关版本不一致
+0x7DE|已经绑定过该网关
+-0x1|未知错误
+65535|未知错误
+
+
