@@ -7,7 +7,7 @@
 版本 | 日期 | 拟稿和修改 | 说明
 ---|---|---|---
 1.0 | 2018-04-08 | 唐运湘 | 初稿
-1.1 | 2018-06-22 | 唐运湘 | 更新API
+1.1.1 | 2018-07-30 | 倪维宗 | 更新API
 |||
 |||
 |||
@@ -163,7 +163,7 @@ errCode  1
 errMsg 密码错误
 ```
 
-更多错误码参考文档最底处“状态码”
+更多错误码参考***
 
  
 
@@ -493,19 +493,7 @@ Device 的字段
 #### 请求参数
 
 ``` java?linenums
-DeviceManager.searchDevice((new DeviceCallback() {
-                    @Override
-                    public void onSuccess(List<Device> data) {
-                        devices.addAll(data);
-                        for(Device device:data){
-                            KLog.d(device.toString());
-                        }
-                    }
-                    @Override
-                    public void onFailure(int errCode, String errMsg) {
-
-                    }
-                });
+DeviceManager.searchDevice(UCallback callback);
 ```
 
 
@@ -635,103 +623,365 @@ onoff表示开关(0表示关，1表示开)
 
 
 
-------------------
-返回参数|类别|值|说明|备注
----|---|---|---|---
-deviceType |string|unknown|未知设备
-deviceType|string|DoorSensor|门磁
-deviceType|string|FireSensor|烟雾报警器
-deviceType|string|WaterSensor|水浸探测器
-deviceType|string|GasSensor|可燃气体
-deviceType|string|IRSensor|人体红外
-deviceType|string|SOS|SOS
-deviceType|string|Switch|墙面开关
-deviceType|string|LightSwitch|开关灯
-deviceType|string|DimmableLight|可调灯
-deviceType|string|LevelControlSwitch|调光开关
-deviceType|string|MobileMeterSocket|移动计量插座
-deviceType|string|OutLet|普通插座
-deviceType|string|Repeater|中继器
-deviceType|string|MobileOutlet|移动插座
-deviceType|string|TouchPanel|触摸面板
-deviceType|string|AudibleAndVisualAlarm|声光报警器
-deviceType|string|CurtainMotor|窗帘电机
-deviceType|string|ColorDimmableLight|彩色灯
-deviceType|string|HumiturePM2.5|温湿度PM2.5
-deviceType|string|PM2.5|PM2.5
-deviceType|string|IRRemoteController|红外遥控器
-deviceType|string|CurtainSwitch|一路窗帘开关
-deviceType|string|IRTransponder|红外转发器
-deviceType|string|AutomaticDoorController|自动门控制器
-deviceType|string|MusicPlayer|背景音乐
+### 获取设备的历史记录
+
+DeviceManager.queryDeviceRecord(int deviceId, String gateway,int index, UCallback callback);
+
+#### 参数说明
+
+| 字段 | 类型 | 说明 | 备注 |
+| ---- | ---- | ---- | ---- |
+|deviceId|   int   |   设备id   |      |
+|gateway|   String   |   网关唯一标识   |      |
+|index|   int   |   记录起始条数  |      |
 
 
-## 5.状态码
-------------------
 
-状态码 | 说明
-----| ---
-0x0| 成功
-0x1| 密码错误
-0x2| 用户不存在
-0x3| SESSION过期
-0x4| 用户已存在
-0x5| 密码太短
-0x6| 用户名不能为空
-0x7| 头信息错误
-0x8| Body信息错误
-0x9| 无授权
-0xA| 绑定错误
-0xB| 没有手机号
-0xC| 验证码不符合
-0xD| 验证码过期
-0xF| 超过绑定网关数量上限
-0x11|没有用户信息
-0x12| Session不符合
-0x13| 旧密码错误
-0x14| 用户已在别处登陆
-0x15| 消息ukey不匹配
-0x12C| 组已存在
-0x12D| 组不存在
-0x12E| 组控制参数错误
-0x1F4| 设备不存在
-0x1F5| 设备读取异常
-0x1F6| 设备离线
-0x1F7| 设备控制超时
-0x1F8| 设备电量低
-0x1F9| 设备控制参数错误
-0x1FA| 未发现新设备
-0x1FB| 设备已存在
-0x1FC| PM2.5不存在
-0x1FD| 温度传感器不存在
-0x1FE| 烟雾探测不存在
-0x1FF| 可燃气体不存在
-0x200|水浸不存在
-0x201|门磁不存在
-0x202|红外不存在
-0x203|SOS不存在
-0x204|设备已添加
-0x3e8|场景已存在
-0x3e9|场景数量过多
-0x3eA|场景不存在
-0x3eB|场景参数错误
-0x3eC|场景时间条件冲突
-0x3eD|场景非法
-0x7D0|不支持的命令
-0x7D1|空对象
-0x7D2|网关挂起，正在停止中
-0x7D3|网关正在启动
-0x7D5|验证码的session超时
-0x7D6|修改分组错误
-0x7D7|网关离线
-0x7D8|没有网关
-0x7D9|网关名已存在
-0x7DA|设备名已存在
-0x7DB|不支持的json协议版本
-0x7DC|不支持的消息号
-0x7DD|APP与网关版本不一致
-0x7DE|已经绑定过该网关
--0x1|未知错误
-65535|未知错误
+### 一键消警
+
+DeviceManager.closeAlarm(UCallback callback);
+
+### 读取曼顿开关设置参数
+DeviceManager.getMDAttribuAte(int id, String gateway,UCallback callback);
+
+#### 参数说明
+
+| 字段 | 类型 | 说明 | 备注 |
+| ---- | ---- | ---- | ---- |
+|id |   int   |   设备id   |      |
+|gateway|   String   |   网关唯一标识   |      |
+
+### 2018.7.18新增接口
+
+### 设置曼顿开关参数
+DeviceManager.setMDAttribuAte(int id, String gateway,String name,int current_max,int power_max,UCallback callback);
+
+#### 参数说明
+
+| 字段 | 类型 | 说明 | 备注 |
+| ---- | ---- | ---- | ---- |
+|id |   int   |   设备id   |      |
+|gateway|   String   |   网关唯一标识   |      |
+|name |   String   |   开关别名   |      |
+|current_max |   int   |   电流门限 单位0.01A   |      |
+|power_max |   int   |   功率门限 单位1W   |      |
+
+
+### 曼顿空开电量统计信息
+DeviceManager.queryMDPowertSatistics(int id, String gateway,UCallback callback);
+
+#### 参数说明
+
+| 字段 | 类型 | 说明 | 备注 |
+| ---- | ---- | ---- | ---- |
+|id |   int   |   设备id   |      |
+|gateway|   String   |   网关唯一标识   |      |
+
+### 手动检测曼顿设备
+DeviceManager.checkMD(int id, String gateway,UCallback callback);
+
+#### 参数说明
+
+| 字段 | 类型 | 说明 | 备注 |
+| ---- | ---- | ---- | ---- |
+|id |   int   |   设备id   |      |
+|gateway|   String   |   网关唯一标识   |      |
+
+### 删除历史记录
+DeviceManager.deleteDeviceRecord(int[] index,UCallback callback);
+
+#### 参数说明
+
+| 字段 | 类型 | 说明 | 备注 |
+| ---- | ---- | ---- | ---- |
+|index |   int[]   |   历史记录唯一ID,可以删除一条或多条   |      |
+
+
+### 添加撤布防组
+DeviceManager.addDeployDefenceGroup(String groupName,int id,String gateway,UCallback callback);
+
+#### 参数说明
+
+| 字段 | 类型 | 说明 | 备注 |
+| ---- | ---- | ---- | ---- |
+|groupName|   String   |   分组名  |   |
+|id 			|   int   |   设备id   |      |
+|gateway  |   String   |   网关唯一标识   |      |
+
+
+### 查找账号下所有布防组
+DeviceManager.queryDeployDefence(UCallback callback);
+
+#### 参数说明
+
+
+### 安防组的撤防、布防
+DeviceManager.setDeployProtection(int group_id, int group_status,UCallback callback);
+
+#### 参数说明
+
+| 字段 | 类型 | 说明 | 备注 |
+| ---- | ---- | ---- | ---- |
+|group_id 			|   int   |   安防组id   |      |
+|group_status  |   int   |   布防分组状态控制 0撤防,1布防   |      |
+
+### 删除设防和布防组
+DeviceManager.deleteDeployProtection(int group_id,UCallback callback);
+
+#### 参数说明
+
+| 字段 | 类型 | 说明 | 备注 |
+| ---- | ---- | ---- | ---- |
+|group_id 			|   int   |   安防组id   |      |
+
+### 安防组的撤防、布防
+DeviceManager.modificationDeployDefenceGroup(String groupName,int groupId,int id,String gateway,UCallback callback);
+
+#### 参数说明
+
+| 字段 | 类型 | 说明 | 备注 |
+| ---- | ---- | ---- | ---- |
+|groupId 			|   int   |   安防分组id   |      |
+|groupName 	  |   String   |   分组名   |      |
+|id  					|   int   |   设备id   |      |
+|gateway      |   String   |   网关唯一标识   |      |
+
+
+
+### 控制曼顿开关
+
+``` java?linenums
+DeviceControl deviceControl=new DeviceControl(new DeviceControl.DeviceBean(new StatusMDOnOff(device,onoff,addr,zonetype),gateway, id));
+                    DeviceManager.controlDevice(deviceControl, new UCallback() {
+                        @Override
+                        public void onSuccess(int status, String data) {
+                            KLog.d("status="+status+"    data="+data);
+                        }
+
+                        @Override
+                        public void onFailure(int errCode, String errMsg) {
+
+                        }
+                    });
+```
+#### 参数说明
+
+StatusMDOnOff(device,onoff,addr,zonetype)
+
+| 字段 | 类型 | 说明 | 备注 |
+| ---- | ---- | ---- | ---- |
+|device 	|   device |   对应设备   |      |
+|onoff 	  |   int	   |   开关0关1开   |      |
+|addr  		|   int  	 |   开关的路数   |      |
+|zonetype |   int  	 |   设备子类型   |      |
+|gateway  | string   |   网关标识   |      |
+|id			  |   int  	 |   设备id   |      |
+
+
+### 获取门锁的用户列表
+DeviceManager.queryDoorUserList(int id,String gateway,UCallback callback);
+
+#### 参数说明
+
+| 字段 | 类型 | 说明 | 备注 |
+| ---- | ---- | ---- | ---- |
+|  id 	  	|   int	   |   设备id   |      |
+|  gateway 	|   String |   网关唯一标识   |      |
+
+#### 返回参数说明
+
+| 字段 | 类型 | 说明 | 备注 |
+| ---- | ---- | ---- | ---- |
+|  userid 	|   int	   |   用户id   |      |
+|  usertype |   int 	 |   用户类型   |      |
+|  userpwd 	|   string |   用户密码   |      |
+|  username |   String |   用户别名   |      |
+
+### 修改门锁密码
+
+DeviceManager.modifyDoorUserPwd(int deviceId, int userid, int userType, String newStr, String gateway,UCallback callback);
+
+#### 参数说明
+| 字段 | 类型 | 说明 | 备注 |
+| ---- | ---- | ---- | ---- |
+|  deviceId |   int	   |   设备id   |      |
+|  userid 	|   int 	 |   用户id   |      |
+|  userType |   int    |   用户类型   |      |
+|  newStr	  |   String |   用户新密码   |      |
+|  gateway 	|   String |   网关唯一标识   |      |
+
+
+### 修改门锁的用户名
+
+DeviceManager.modifyDoorUserName(int deviceId, int userid, int usertype, String username, String gateway,UCallback callback);
+
+#### 参数说明
+| 字段 | 类型 | 说明 | 备注 |
+| ---- | ---- | ---- | ---- |
+|  deviceId |   int	   |   设备id   |      |
+|  userid 	|   int 	 |   用户id   |      |
+|  userType |   int    |   用户类型   |      |
+|  username	|   String |   用户新名   |      |
+|  gateway 	|   String |   网关唯一标识   |      |
+
+### 删除门锁用户
+
+DeviceManager.delDoorUser(int deviceId, int userId, int usertype, String gateway,UCallback callback);
+
+#### 参数说明
+| 字段 | 类型 | 说明 | 备注 |
+| ---- | ---- | ---- | ---- |
+|  deviceId |   int	   |   设备id   |      |
+|  userid 	|   int 	 |   用户id   |      |
+|  userType |   int    |   用户类型   |      |
+|  gateway 	|   String |   网关唯一标识   |      |
+
+
+### 获取门锁记录  获取最近10条记录
+DeviceManager.queryDoorRecord(int id, String gateway,UCallback callback);
+
+#### 参数说明
+| 字段 | 类型 | 说明 | 备注 |
+| ---- | ---- | ---- | ---- |
+|  id 	  |  int	 |   设备id   |      |
+| gateway |  String |  网关唯一标识 |      |
+
+#### 返回参数说明
+
+| 字段 | 类型 | 说明 | 备注 |
+| ---- | ---- | ---- | ---- |
+| records| Jsonarray|   开门记录   |      |
+| alarms |  Jsonarray |  报警记录 |      |
+
+
+
+### 场景列表
+SceneManager.getSceneList(UCallback callback);
+
+#### 返回参数说明
+| 字段 | 类型 | 说明 | 备注 |
+| ---- | ---- | ---- | ---- |
+|  id |   int	   |   场景ID   |      |
+|  name |   String|   场景Name   |      |
+|  type |   int	   |   场景类型   |      |
+|  onoff |   int	   |  场景是否触发(0：关，1：开)   |      |
+|  devices |   JsonArray	| 场景列表   |      |
+|  id |   int	   |   设备id   |      |
+|  type |   int	   | 设备类型   |      |
+
+### 添加场景
+SceneManager.addScene(String name,Conditions conditions,Results results,Recover recover, UCallback callback);
+
+#### 参数说明
+| 字段 | 类型 | 说明 | 备注 |
+| ---- | ---- | ---- | ---- |
+|  name |   String	   |   场景Name  |      |
+|  conditions |  Object |   启动条件   |      |
+|  results |   Object	   |   执行结果   |      |
+|  recover |   Object	   |  恢复（可以不设置数据）  |      |
+
+##### Conditions 类
+| 字段 | 类型 | 说明 | 备注 |
+| ---- | ---- | ---- | ---- |
+|  devices |   JSONArray|   设备  |   List<Devices>   |
+|  defense |  JSONArray |      |    List<Defense>  |	
+|  time |   Object	   |   时间类   |    Time  |
+
+###### Devices 类
+| 字段 | 类型 | 说明 | 备注 |
+| ---- | ---- | ---- | ---- |
+|  id 	|   int |   设备的id  |   |
+|  gataway |  String |  网关标识    |    |	
+|  command |   Object	 |  设备开关的指令   |   |
+
+###### Devices.AlertCommand 类
+| 字段 | 类型 | 说明 | 备注 |
+| ---- | ---- | ---- | ---- |
+|  alert 	|   int |   0关1开  |   |
+
+###### Devices.OnOffCommand 类
+| 字段 | 类型 | 说明 | 备注 |
+| ---- | ---- | ---- | ---- |
+|  onoff 	|   int |   0关1开  |   |
+
+###### Defense 类
+| 字段 | 类型 | 说明 | 备注 |
+| ---- | ---- | ---- | ---- |
+|  alarm 	|   int |   0撤防，1布防  |   |
+| alarm_group_id|  int |  布防组id    |    |	
+###### Time 类
+| 字段 | 类型 | 说明 | 备注 |
+| ---- | ---- | ---- | ---- |
+|  type 	|   int |  1 定时 2 延时  |   |
+| value|  long |  时间值    |    |	
+
+
+
+
+``` java?linenums
+ Conditions conditions = new Conditions();
+ Results results = new Results();
+ Recover recover = new Recover();
+ List<Devices> devicesConditions = new ArrayList<>();
+ List<Devices> devicesResults = new ArrayList<>();
+ List<Defense> list1= new ArrayList<>();
+ List<Defense> list2= new ArrayList<>();
+ Devices deviceConditons = new Devices();//启动条件的设备
+ Devices deviceResults = new Devices();//执行结果的设备
+ deviceConditons.setId(int 设备id);
+ deviceConditons.setGateway(String gateway(网关唯一标识));
+ deviceConditons.setCommand(command);
+ //其中command根据不同的设备选择不同的Command类型如果条件选择的设备控制开关的指令是alert
+ Devices.AlertCommand command = new Devices.AlertCommand();
+ command.setAlert(int);//0或者1，0代表关，1代表开
+ Devices.OnOffCommand command1 = new Devices.OnOffCommand();
+ command1.setOnoff(int);//同上
+ deviceConditons.setId(int 设备id);
+ deviceConditons.setGateway(String gateway(网关唯一标识));
+ deviceConditons.setCommand(command1);
+ devicesConditons.add(deviceConditons);
+ devicesResults.add(deviceResults);
+ conditions.setDevices(devicesConditons).setDefense(list1).setTime(time);
+ results.setDevices(devicesResults).setDefense(list2);
+ String name  = "场景的名字";
+  SceneManager.addScene(name,conditions,results,recover, new UCallback() {
+                    @Override
+                    public void onSuccess(int status, String data) {
+                      
+                    }
+
+                    @Override
+                    public void onFailure(int errCode, String errMsg) {
+                      
+                    }
+                });
+ 
+```
+
+
+### 修改场景
+SceneManager.modifyScene(int id,String name,Conditions conditions,Results results,Recover recover, UCallback callback);
+
+#### 参数说明
+| 字段 | 类型 | 说明 | 备注 |
+| ---- | ---- | ---- | ---- |
+|  id |   int	   |   场景id |  其他参数同添加场景    |
+
+### 控制场景
+SceneManager.controlScene(int sceneId, int onOff, UCallback callback);
+
+#### 参数说明
+| 字段 | 类型 | 说明 | 备注 |
+| ---- | ---- | ---- | ---- |
+|  sceneId |   int	   |   场景id |      |
+|  onOff |   int	   |   场景开关 0：关，1：开 |      |
+
+### 删除场景
+SceneManager.deleteScene(int id,UCallback callback);
+
+#### 参数说明
+| 字段 | 类型 | 说明 | 备注 |
+| ---- | ---- | ---- | ---- |
+|  id |   int	   |   场景id |      |
 
 
