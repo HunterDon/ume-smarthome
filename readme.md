@@ -366,6 +366,52 @@ GatewayManager.updateGatewayName(String gateway, String gatewayName, UCallback c
 |gatewayName|   String   |   网关别名   |      |
 
 
+### 获取网关详情（二维码）
+
+#### 请求参数
+
+``` java?linenums
+public static void getGatewayByMac(UCallback callback,String mac);
+```
+
+#### 参数说明
+| 字段 | 类型 | 说明 | 备注 |
+| ---- | ---- | ---- | ---- |
+|mac|   String   |   二维码搜索出来的网关ID   |      |
+
+
+### 搜索WIFI列表
+
+#### 请求参数
+
+``` java?linenums
+public static void searchWIFI(Client.CallBackWifi callback);
+```
+
+#### 参数说明
+| 字段 | 类型 | 说明 | 备注 |
+| ---- | ---- | ---- | ---- |
+|mac|   String   |   二维码搜索出来的网关ID   |      |
+|WifiBean|   WifiBean   |   对象，里面包含了wifi的各字段  |      |
+
+### 通过WIFI设置网关桥接
+
+#### 请求参数
+
+``` java?linenums
+public static void setWifiBridge(WifiBean wifiBean);
+```
+
+#### 参数说明
+| 字段 | 类型 | 说明 | 备注 |
+| ---- | ---- | ---- | ---- |
+|WifiBean|   WifiBean   |   对象，里面包含了wifi的各字段  |      |
+|BSSID|   String   |   wifi的id   |      |
+|ESSID|   String   |   服务区别号   |      |
+|Channel|   String   |   wifi频率   |      |
+|key|   String   |   wifi密码   |      |
+
+
 ### 检测唯一管理员
 
 检测是否唯一管理员，主要用于解除网关绑定，如果解绑时是唯一管理员，继续解绑，将导致网关重置
